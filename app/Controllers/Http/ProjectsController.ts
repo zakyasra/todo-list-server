@@ -9,18 +9,24 @@ export default class ExamplesController {
       .where({ userId: user.id })
       .andWhere("dihapus", 0);
 
-    const todo_done = await Project.query()
-      .where("selesai", 1)
-      .andWhere("dihapus", 0);
+    const todoDone = (
+      await Project.query()
+        .where({ userId: user.id })
+        .where("selesai", 1)
+        .andWhere("dihapus", 0)
+    ).length;
 
-    const todo_progres = await Project.query()
-      .where("selesai", 0)
-      .andWhere("dihapus", 0);
+    const todoProgres = (
+      await Project.query()
+        .where({ userId: user.id })
+        .where("selesai", 0)
+        .andWhere("dihapus", 0)
+    ).length;
 
     return response.ok({
       data,
-      todo_done: todo_done.length,
-      todo_progres: todo_progres.length,
+      todoDone,
+      todoProgres,
     });
   }
 
