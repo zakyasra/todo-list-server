@@ -9,7 +9,19 @@ export default class ExamplesController {
       .where({ userId: user.id })
       .andWhere("dihapus", 0);
 
-    return response.ok({ data });
+    const todo_done = await Project.query()
+      .where("selesai", 1)
+      .andWhere("dihapus", 0);
+
+    const todo_progres = await Project.query()
+      .where("selesai", 0)
+      .andWhere("dihapus", 0);
+
+    return response.ok({
+      data,
+      todo_done: todo_done.length,
+      todo_progres: todo_progres.length,
+    });
   }
 
   public async store({ response, request, auth }: HttpContextContract) {
@@ -51,6 +63,28 @@ export default class ExamplesController {
     }
 
     return response.abort({ message: "Data gagal dibuat" });
+  }
+
+  public async selesai({
+    response,
+    request,
+    // auth,
+    params: { id },
+  }: HttpContextContract) {
+    // const user = await auth.authenticate();
+    const { selesai } = request.body();
+
+    const data = await Project.query().where("id", id).update({
+      selesai,
+    });
+
+    if (data) {
+      return response.ok({
+        message: "Data berhasil diubah",
+      });
+    }
+
+    return response.abort({ message: "Data gagal diubah" });
   }
 
   public async destroy({ response, params: { id } }: HttpContextContract) {

@@ -22,5 +22,6 @@ import Route from "@ioc:Adonis/Core/Route";
 
 Route.post("login", "UsersController.login");
 Route.post("register", "UsersController.register");
+Route.put("project/selesai/:id", "ProjectsController.selesai");
 Route.resource("project", "ProjectsController").apiOnly();
 Route.get("profile", "UsersController.profile");

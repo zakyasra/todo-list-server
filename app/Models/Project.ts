@@ -15,6 +15,9 @@ export default class Project extends BaseModel {
   @column()
   public dihapus: number;
 
+  @column()
+  public selesai: number;
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
 

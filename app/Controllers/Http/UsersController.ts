@@ -39,7 +39,7 @@ export default class UsersController {
     const passwords = await Hash.verify(check.password, password);
 
     if (!passwords) {
-      return response.abort("Password yang anda masukkan salah");
+      return response.abort({ message: "Password yang anda masukkan salah" });
     }
 
     return auth.attempt(email, password);
